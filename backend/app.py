@@ -1,7 +1,8 @@
+import os
 from flask import Flask, request, render_template
 from sentiment_analysis import analyze_sentiment  # Import the modified function
 
-app = Flask(__name__, static_folder='frontend/static')
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -18,4 +19,5 @@ def analyze():
     return render_template('index.html', error="URL is required.")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use the PORT environment variable if available
+    app.run(host='0.0.0.0', port=port, debug=True)
