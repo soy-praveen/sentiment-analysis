@@ -1,36 +1,40 @@
 import instaloader
 from textblob import TextBlob
+from instaloader import Instaloader, Post
 
-def get_comments_from_post(post_url):
-    # Initialize Instaloader
-    L = instaloader.Instaloader()
+def analyze_sentiment(post_url):
+    # Initialize Instaloader and log in
+    loader = Instaloader()
 
-    # Fetch post metadata
-    short_code = post_url.split('/')[-2]
-    post = instaloader.Post.from_shortcode(L.context, short_code)
+    # Use your Instagram username and password here
+    USERNAME = 'ashicultz'
+    PASSWORD = 'Mina@143'
 
-    comments = []
-    for comment in post.get_comments():
-        comments.append(comment.text)
+    # Log in to Instagram
+    try:
+        loader.login(USERNAME, PASSWORD)
+    except instaloader.exceptions.InstaloaderException as e:
+        return {"error": f"Login failed: {str(e)}"}
 
-    return comments
+    # Get post from URL
+    shortcode = post_url.split('/')[-2]
+    try:
+        post = Post.from_shortcode(loader.context, shortcode)
+    except Exception as e:
+        return {"error": f"Failed to fetch post: {str(e)}"}
 
-def analyze_sentiment(comments):
-    # Analyze each comment
-    positive, negative, neutral = 0, 0, 0
-
-    for comment in comments:
-        analysis = TextBlob(comment)
-        if analysis.sentiment.polarity > 0:
-            positive += 1
-        elif analysis.sentiment.polarity < 0:
-            negative += 1
-        else:
-            neutral += 1
-
-    if positive > negative:
-        return 'Positive'
-    elif negative > positive:
-        return 'Negative'
-    else:
-        return 'Neutral'
+    # Extract comments
+    comments = [comment.text for comment in post.get_comments()]
+    
+    # Perform sentiment analysis
+    text = ' '.join(comments)
+    blob = TextBlob(text)
+    
+    # Determine sentiment
+    sentiment = "Positive" if blob.sentiment.polarity > 0 else "Negative" if blob.sentiment.polarity < 0 else "Neutral"
+    
+    return {
+        "sentiment": sentiment,
+        "polarity": blob.sentiment.polarity,
+        "subjectivity": blob.sentiment.subjectivity
+    }
