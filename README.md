@@ -36,5 +36,5 @@ This project is a simple web application that analyzes the sentiment of comments
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/instagram-sentiment-analyzer.git
-![Screenshot-1]([http://url/to/img.png](https://github.com/soy-praveen/sentiment-analysis/blob/main/Screenshot%202024-09-06%20101509.png))
-![Screenshot-2]([http://url/to/img.png](https://github.com/soy-praveen/sentiment-analysis/blob/main/Screenshot%202024-09-06%20101622.png))
+![Screenshot-1](https://github.com/soy-praveen/sentiment-analysis/blob/main/Screenshot%202024-09-06%20101509.png)
+![Screenshot-2](https://github.com/soy-praveen/sentiment-analysis/blob/main/Screenshot%202024-09-06%20101622.png)
